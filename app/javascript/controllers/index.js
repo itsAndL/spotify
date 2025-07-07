@@ -4,5 +4,23 @@
 
 import { application } from "./application"
 
+import AppController from "./app_controller"
+application.register("app", AppController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import MobilePlayerController from "./mobile_player_controller"
+application.register("mobile-player", MobilePlayerController)
+
+import PlayerController from "./player_controller"
+application.register("player", PlayerController)
+
+import ScrollController from "./scroll_controller"
+application.register("scroll", ScrollController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)
+
+import SongItemController from "./song_item_controller"
+application.register("song-item", SongItemController)

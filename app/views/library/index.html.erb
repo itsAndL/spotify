@@ -1,0 +1,47 @@
+<!-- app/views/library/index.html.erb -->
+<div class="p-4 md:p-8">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-2xl md:text-3xl font-bold">مكتبتك</h1>
+    <div class="flex items-center space-x-2 space-x-reverse">
+      <button class="p-2 hover:bg-gray-800 rounded-full">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+      <button class="p-2 hover:bg-gray-800 rounded-full">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="flex space-x-4 space-x-reverse mb-6">
+    <button class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-medium">الكل</button>
+    <button class="px-4 py-2 hover:bg-gray-800 text-gray-400 rounded-full text-sm font-medium">قوائم التشغيل</button>
+    <button class="px-4 py-2 hover:bg-gray-800 text-gray-400 rounded-full text-sm font-medium">العلماء</button>
+    <button class="px-4 py-2 hover:bg-gray-800 text-gray-400 rounded-full text-sm font-medium">المجموعات</button>
+  </div>
+
+  <!-- Library Items -->
+  <div class="space-y-2">
+    <% @library_items.each do |item| %>
+      <%= link_to playlist_path(id: item[:id]) do %>
+        <div class="flex items-center p-3 rounded-lg hover:bg-gray-800 cursor-pointer group">
+          <button class="p-2 bg-green-500 hover:bg-green-400 text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity ml-4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+              <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="flex-1 min-w-0 text-right">
+            <h3 class="font-semibold text-white truncate"><%= item[:title] %></h3>
+            <p class="text-sm text-gray-400 truncate">قائمة تشغيل • <%= item[:subtitle] %></p>
+          </div>
+          <img src="<%= item[:image] %>" alt="<%= item[:title] %>" class="w-16 h-16 rounded-lg ml-4">
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

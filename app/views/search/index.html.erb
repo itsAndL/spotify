@@ -1,0 +1,99 @@
+<!-- app/views/search/index.html.erb -->
+<div class="p-4 md:p-8">
+  <!-- Search Bar -->
+  <div class="mb-8">
+    <form class="relative" data-controller="search" data-search-url-value="<%= search_path %>">
+      <input type="text" 
+             name="q" 
+             placeholder="ما الذي تريد الاستماع إليه؟"
+             value="<%= params[:q] %>"
+             class="w-full bg-gray-800 text-white placeholder-gray-400 rounded-full py-3 px-4 pr-12 focus:outline-none focus:ring-2 focus:ring-white focus:bg-gray-700 text-right"
+             data-search-target="input"
+             data-action="input->search#search"
+             dir="rtl">
+      <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+      </svg>
+    </form>
+  </div>
+
+  <% if @search_results.any? %>
+    <!-- Search Results -->
+    <div class="mb-8" data-playlist='<%= @search_results.map { |lecture| { id: lecture[:id].to_s, title: lecture[:title], artist: lecture[:artist], image: lecture[:image], audioUrl: lecture[:audio_url] } }.to_json.html_safe %>'>
+      <h2 class="text-xl font-bold mb-4 text-right">المحاضرات</h2>
+      <div class="space-y-2">
+        <% @search_results.each_with_index do |lecture, index| %>
+          <div class="flex items-center gap-x-4 p-2 rounded-lg hover:bg-gray-800 cursor-pointer group song-item"
+               data-controller="song-item"
+               data-song-item-id-value="<%= lecture[:id].to_s %>"
+               data-song-item-title-value="<%= html_escape(lecture[:title]) %>"
+               data-song-item-artist-value="<%= html_escape(lecture[:artist]) %>"
+               data-song-item-image-value="<%= lecture[:image] %>"
+               data-song-item-audio-value="<%= lecture[:audio_url] %>"
+               data-action="click->song-item#play"
+               data-song-id="<%= lecture[:id].to_s %>">
+            
+            <div class="flex items-center min-w-0 flex-1 gap-x-3">
+              <div class="w-12 h-12 bg-gray-700 rounded flex-shrink-0 relative">
+                <img src="<%= lecture[:image] %>" alt="<%= lecture[:title] %>" class="w-full h-full rounded object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-50 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div class="play-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+                      <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div class="pause-icon hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-white">
+                      <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0A.75.75 0 0 1 15 4.5h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-white truncate"><%= lecture[:title] %></p>
+                <p class="text-sm text-gray-400 truncate"><%= lecture[:artist] %></p>
+              </div>
+            </div>
+            <div class="hidden md:block text-sm text-gray-400">
+              <%= lecture[:album] %>
+            </div>
+            <div class="text-sm text-gray-400">
+              <%= lecture[:duration] %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <!-- Browse Categories -->
+    <div class="mb-8">
+      <h2 class="text-xl font-bold mb-4 text-right">تصفح الكل</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <%= link_to category_path(id: 1) do %>
+          <div class="bg-pink-500 rounded-lg p-4 cursor-pointer hover:scale-105 transition-transform relative overflow-hidden" style="min-height: 120px;">
+            <h3 class="font-bold text-white text-lg text-right">العقيدة</h3>
+            <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="العقيدة" class="absolute -bottom-2 -left-2 w-20 h-20 object-cover rounded transform rotate-12">
+          </div>
+        <% end %>
+        <%= link_to category_path(id: 2) do %>
+          <div class="bg-orange-500 rounded-lg p-4 cursor-pointer hover:scale-105 transition-transform relative overflow-hidden" style="min-height: 120px;">
+            <h3 class="font-bold text-white text-lg text-right">الفقه</h3>
+            <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="الفقه" class="absolute -bottom-2 -left-2 w-20 h-20 object-cover rounded transform rotate-12">
+          </div>
+        <% end %>
+        <%= link_to category_path(id: 3) do %>
+          <div class="bg-red-500 rounded-lg p-4 cursor-pointer hover:scale-105 transition-transform relative overflow-hidden" style="min-height: 120px;">
+            <h3 class="font-bold text-white text-lg text-right">التفسير</h3>
+            <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="التفسير" class="absolute -bottom-2 -left-2 w-20 h-20 object-cover rounded transform rotate-12">
+          </div>
+        <% end %>
+        <%= link_to category_path(id: 4) do %>
+          <div class="bg-blue-500 rounded-lg p-4 cursor-pointer hover:scale-105 transition-transform relative overflow-hidden" style="min-height: 120px;">
+            <h3 class="font-bold text-white text-lg text-right">الحديث</h3>
+            <img src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228" alt="الحديث" class="absolute -bottom-2 -left-2 w-20 h-20 object-cover rounded transform rotate-12">
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

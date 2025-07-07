@@ -1,0 +1,136 @@
+<!-- app/views/shared/_mobile_player.html.erb -->
+<div data-controller="mobile-player">
+  <div class="fixed inset-0 bg-gradient-to-b from-gray-900 to-black z-50 hidden" data-mobile-player-target="modal">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 pt-12">
+      <button class="p-2 hover:bg-gray-800 rounded-full">
+        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+        </svg>
+      </button>
+      <h2 class="text-sm font-medium text-gray-400">يتم التشغيل من المكتبة</h2>
+      <button data-action="click->mobile-player#close" class="p-2 hover:bg-gray-800 rounded-full">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Album Art -->
+    <div class="flex justify-center px-8 py-8">
+      <div class="w-80 h-80 md:w-96 md:h-96 bg-gray-800 rounded-lg shadow-2xl">
+        <img src="" alt="" class="w-full h-full rounded-lg object-cover" data-mobile-player-target="albumImage">
+      </div>
+    </div>
+
+    <!-- Song Info -->
+    <div class="px-8 py-4">
+      <div class="flex items-center justify-between">
+        <button class="ml-4 p-2 hover:bg-gray-800 rounded-full" 
+                data-action="click->mobile-player#toggleLike" 
+                data-mobile-player-target="likeButton">
+          <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+        <div class="min-w-0 flex-1 text-right">
+          <h1 class="text-2xl font-bold text-white truncate" data-mobile-player-target="songTitle">عنوان المحاضرة</h1>
+          <p class="text-lg text-gray-400 truncate" data-mobile-player-target="artistName">اسم الشيخ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="px-8 py-4">
+      <div class="flex items-center space-x-3 space-x-reverse">
+        <span class="text-xs text-gray-400 w-10" data-mobile-player-target="totalTime">0:00</span>
+        <div class="flex-1 bg-gray-600 rounded-full h-1 cursor-pointer" 
+              data-action="click->mobile-player#seek" 
+              data-mobile-player-target="progressBar">
+          <div class="bg-white h-1 rounded-full transition-all duration-100" 
+                style="width: 0%" 
+                data-mobile-player-target="progress"></div>
+        </div>
+        <span class="text-xs text-gray-400 w-10 text-left" data-mobile-player-target="currentTime">0:00</span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="px-8 py-6">
+      <div class="flex items-center justify-between">
+        <button class="p-3 hover:bg-gray-800 rounded-full text-gray-400" 
+                data-action="click->mobile-player#toggleRepeat"
+                data-mobile-player-target="repeatButton">
+          <!-- Regular repeat icon -->
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16" data-mobile-player-target="repeatIcon">
+            <path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h8.5A3.75 3.75 0 0 1 16 4.75v5a3.75 3.75 0 0 1-3.75 3.75H9.81l1.018 1.018a.75.75 0 1 1-1.06 1.06L6.939 12.75l2.829-2.828a.75.75 0 1 1 1.06 1.06L9.811 12h2.439a2.25 2.25 0 0 0 2.25-2.25v-5a2.25 2.25 0 0 0-2.25-2.25h-8.5A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75z"></path>
+          </svg>
+          <!-- Repeat one icon -->
+          <svg class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 16 16" data-mobile-player-target="repeatOneIcon">
+            <path d="M0 4.75A3.75 3.75 0 0 1 3.75 1h.75v1.5h-.75A2.25 2.25 0 0 0 1.5 4.75v5A2.25 2.25 0 0 0 3.75 12H5v1.5H3.75A3.75 3.75 0 0 1 0 9.75zM12.25 2.5a2.25 2.25 0 0 1 2.25 2.25v5A2.25 2.25 0 0 1 12.25 12H9.81l1.018-1.018a.75.75 0 0 0-1.06-1.06L6.939 12.75l2.829 2.828a.75.75 0 1 0 1.06-1.06L9.811 13.5h2.439A3.75 3.75 0 0 0 16 9.75v-5A3.75 3.75 0 0 0 12.25 1h-.75v1.5z"></path>
+            <path d="m8 1.85.77.694H6.095V1.488q1.046-.077 1.507-.385.474-.308.583-.913h1.32V8H8z"></path>
+          </svg>
+        </button>
+        
+        <button class="p-3 hover:bg-gray-800 rounded-full" data-action="click->mobile-player#nextTrack">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M4.555 5.168A1 1 0 003 6v8a1 1 0 001.555.832L10 11.202V14a1 1 0 001.555.832l6-4a1 1 0 000-1.664l-6-4A1 1 0 0010 6v2.798l-5.445-3.63z"/>
+          </svg>
+        </button>
+        
+        <button class="p-4 bg-white hover:bg-gray-100 text-black rounded-full hover:scale-105 transition-transform" 
+                data-action="click->mobile-player#togglePlay" 
+                data-mobile-player-target="playButton">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8" data-mobile-player-target="playIcon">
+            <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8 hidden" data-mobile-player-target="pauseIcon">
+            <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0A.75.75 0 0 1 15 4.5h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        
+        <button class="p-3 hover:bg-gray-800 rounded-full" data-action="click->mobile-player#previousTrack">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M8.445 14.832A1 1 0 0010 14v-2.798l5.445 3.63A1 1 0 0017 14V6a1 1 0 00-1.555-.832L10 8.798V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4z"/>
+          </svg>
+        </button>
+        
+        <button class="p-3 hover:bg-gray-800 rounded-full text-gray-400" 
+                data-action="click->mobile-player#toggleShuffle"
+                data-mobile-player-target="shuffleButton">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.151.922a.75.75 0 1 0-1.06 1.06L13.109 3H11.16a3.75 3.75 0 0 0-2.873 1.34l-6.173 7.356A2.25 2.25 0 0 1 .39 12.5H0V14h.391a3.75 3.75 0 0 0 2.873-1.34l6.173-7.356a2.25 2.25 0 0 1 1.724-.804h1.947l-1.017 1.018a.75.75 0 0 0 1.06 1.06L15.98 3.75zM.391 3.5H0V2h.391c1.109 0 2.16.49 2.873 1.34L4.89 5.277l-.979 1.167-1.796-2.14A2.25 2.25 0 0 0 .39 3.5z"></path>
+            <path d="m7.5 10.723.98-1.167.957 1.14a2.25 2.25 0 0 0 1.724.804h1.947l-1.017-1.018a.75.75 0 1 1 1.06-1.06l2.829 2.828-2.829 2.828a.75.75 0 1 1-1.06-1.06L13.109 13H11.16a3.75 3.75 0 0 1-2.873-1.34l-.787-.938z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Additional Controls -->
+    <div class="px-8 py-4">
+      <div class="flex items-center justify-between">
+        <button class="p-2 hover:bg-gray-800 rounded-full">
+         <svg class="w-5 h-5 text-gray-400 hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+           <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+         </svg>
+       </button>
+       
+       <div class="flex items-center space-x-3 space-x-reverse">
+         <div class="w-24 bg-gray-600 rounded-full h-1">
+           <div class="bg-white h-1 rounded-full" style="width: 80%"></div>
+         </div>
+         <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 16 16">
+           <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.64 3.64 0 0 1-1.33-4.967 3.64 3.64 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.14 2.14 0 0 0 0 3.7l5.8 3.35V2.8zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88"></path>
+           <path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127z"></path>
+         </svg>
+       </div>
+       
+       <button class="p-2 hover:bg-gray-800 rounded-full">
+         <svg class="w-5 h-5 text-gray-400 hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+           <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/>
+         </svg>
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
