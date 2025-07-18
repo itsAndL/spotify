@@ -1,0 +1,125 @@
+<!-- app/views/artist/show.html.erb -->
+<div class="p-4 md:p-8">
+  <!-- Artist Header -->
+  <div class="flex flex-col md:flex-row items-start md:items-end mb-8 space-y-4 md:space-y-0 md:space-x-6 md:space-x-reverse">
+    <img src="<%= @artist[:image] %>" alt="<%= @artist[:name] %>" class="w-48 h-48 md:w-64 md:h-64 rounded-full shadow-2xl">
+    <div class="flex-1 text-right">
+      <div class="flex items-center mb-2">
+        <svg class="w-6 h-6 text-blue-500 ml-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span class="text-sm text-blue-500 font-medium">عالم معتمد</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-bold mb-4"><%= @artist[:name] %></h1>
+      <p class="text-gray-400 mb-4"><%= @artist[:bio] %></p>
+      <div class="flex items-center text-sm text-gray-400 justify-end">
+        <span><%= @artist[:followers] %> متابع</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex items-center space-x-6 space-x-reverse mb-8">
+    <button class="p-4 bg-green-500 hover:bg-green-400 text-black rounded-full hover:scale-105 transition-transform">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <button class="px-6 py-2 border border-gray-600 text-gray-300 hover:border-white hover:text-white rounded-full text-sm font-medium">
+      متابعة
+    </button>
+    <button class="p-2 hover:bg-gray-800 rounded-full">
+      <svg class="w-6 h-6 text-gray-400 hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Popular Lectures -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">المحاضرات الأكثر شعبية</h2>
+    <div class="space-y-1">
+      <% @popular_lectures.each_with_index do |lecture, index| %>
+        <div class="grid grid-cols-12 gap-4 px-4 py-2 rounded-lg hover:bg-gray-800 cursor-pointer group"
+             data-controller="song-item"
+             data-song-item-id-value="<%= lecture[:id].to_s %>"
+             data-song-item-title-value="<%= lecture[:title] %>"
+             data-song-item-artist-value="<%= @artist[:name] %>"
+             data-song-item-image-value="<%= lecture[:image] %>"
+             data-song-item-audio-value="<%= lecture[:audio_url] %>"
+             data-action="click->song-item#play">
+          
+          <!-- Rank -->
+          <div class="col-span-1 flex items-center justify-center">
+            <span class="text-gray-400 text-lg font-bold"><%= index + 1 %></span>
+          </div>
+          
+          <!-- Lecture Info -->
+          <div class="col-span-7 flex items-center gap-x-3 min-w-0">
+            <img src="<%= lecture[:image] %>" alt="<%= lecture[:title] %>" class="w-10 h-10 rounded flex-shrink-0">
+            <div class="min-w-0">
+              <p class="font-medium text-white truncate text-right"><%= lecture[:title] %></p>
+              <p class="text-sm text-gray-400 truncate text-right"><%= lecture[:album] %></p>
+            </div>
+          </div>
+          
+          <!-- Plays -->
+          <div class="col-span-2 flex items-center text-gray-400 text-sm text-right">
+            <%= lecture[:plays] %>
+          </div>
+          
+          <!-- Duration -->
+          <div class="col-span-2 flex items-center text-gray-400 text-sm text-left">
+            <%= lecture[:duration] %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Albums -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">المجموعات</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <% @albums.each do |album| %>
+        <%= link_to album_path(id: album[:id]) do %>
+          <div class="bg-gray-900 hover:bg-gray-800 rounded-lg p-4 transition-colors cursor-pointer group">
+            <div class="relative mb-4">
+              <img src="<%= album[:image] %>" alt="<%= album[:title] %>" class="w-full aspect-square rounded-lg shadow-lg">
+              <button class="absolute bottom-2 left-2 p-2 bg-green-500 hover:bg-green-400 text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-semibold text-white truncate mb-1 text-right"><%= album[:title] %></h3>
+            <p class="text-sm text-gray-400 text-right"><%= album[:year] %> • <%= album[:lectures_count] %> محاضرة</p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Appears On -->
+  <div class="mb-8">
+    <h2 class="text-xl font-bold mb-4">يظهر في</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <% @appears_on.each do |item| %>
+        <%= link_to playlist_path(id: item[:id]) do %>
+          <div class="bg-gray-900 hover:bg-gray-800 rounded-lg p-4 transition-colors cursor-pointer group">
+            <div class="relative mb-4">
+              <img src="<%= item[:image] %>" alt="<%= item[:title] %>" class="w-full aspect-square rounded-lg shadow-lg">
+              <button class="absolute bottom-2 left-2 p-2 bg-green-500 hover:bg-green-400 text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+            <h3 class="font-semibold text-white truncate mb-1 text-right"><%= item[:title] %></h3>
+            <p class="text-sm text-gray-400 text-right"><%= item[:type] %> • <%= item[:subtitle] %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

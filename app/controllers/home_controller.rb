@@ -69,32 +69,32 @@ class HomeController < ApplicationController
       {
         id: 1,
         name: "الشيخ صالح الفوزان",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       },
       {
         id: 2,
         name: "الشيخ محمد الألباني",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       },
       {
         id: 3,
         name: "الشيخ عبد العزيز ابن باز",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       },
       {
         id: 4,
         name: "الشيخ عبيد الله الجابري",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       },
       {
         id: 5,
         name: "الشيخ ربيع المدخلي",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       },
       {
         id: 6,
         name: "الشيخ صالح آل الشيخ",
-        image: "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb"
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Saleh_Al-Fawzan.jpg"
       }
     ]
   end
